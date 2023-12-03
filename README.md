@@ -1,6 +1,6 @@
 # 🎄Advent of Code 2023⭐
 
-My Python solutions to [AOC 2023[(https://adventofcode.com/2023)].
+My Python solutions to [AOC 2023](https://adventofcode.com/2023).
 
 ## Setup
 
@@ -12,7 +12,7 @@ pip install -r requirements.txt
 
 ## Run
 
-To run the solution to day `n`:
+To run the solutions for day `n`:
 
 ```bash
 cd <n>/
