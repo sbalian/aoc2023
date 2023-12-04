@@ -11,8 +11,8 @@ def read_games(path: str) -> list[str]:
 
 
 def cube_counts(game_line: str) -> Generator[tuple[int, str], None, None]:
-    for match in re.finditer(r"\d+\s(red|blue|green)", game_line):
-        count_, color = match[0].split(" ")
+    for m in re.finditer(r"\d+\s(red|blue|green)", game_line):
+        count_, color = m[0].split(" ")
         yield (int(count_), color)
 
 

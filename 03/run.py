@@ -22,11 +22,11 @@ def read_grid(path: str) -> list[str]:
 def extract_numbers_for_row(row: str, row_index: int) -> list[Number]:
     return [
         Number(
-            value=int(match[0]),
-            starting_position=(row_index, match.start(0)),
-            num_digits=len(match[0]),
+            value=int(m[0]),
+            starting_position=(row_index, m.start(0)),
+            num_digits=len(m[0]),
         )
-        for match in re.finditer(r"\d+", row)
+        for m in re.finditer(r"\d+", row)
     ]
 
 
