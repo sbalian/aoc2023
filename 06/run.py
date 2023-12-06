@@ -23,11 +23,17 @@ def num_ways_to_win(time, distance):
     sqrt = math.sqrt(time * time - 4 * distance)
     upper_root = (time + sqrt) / 2
     lower_root = (time - sqrt) / 2
-    wtw = math.ceil(upper_root) - math.ceil(lower_root)
-    if float.is_integer(upper_root):
-        return wtw - 1
-    else:
-        return wtw
+    min_ = math.ceil(lower_root)
+    max_ = math.floor(upper_root)
+    wtw = max_ - min_ + 1
+
+    # this is equivalent to ...
+    # if min_ * min_ - time * min_ + distance == 0:
+    #     wtw -= 1
+    # if max_ * max_ - time * max_ + distance == 0:
+    #     wtw -= 1
+    wtw -= sum([float.is_integer(upper_root), float.is_integer(lower_root)])
+    return wtw
 
 
 def part1(races):
