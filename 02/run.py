@@ -52,6 +52,9 @@ def part2(game_lines: list[str]) -> int:
 
 
 def main() -> None:
+    game_lines = read_games("example.txt")
+    assert part1(game_lines) == 8
+    assert part2(game_lines) == 2286
     game_lines = read_games("input.txt")
     assert part1(game_lines) == 2563
     assert part2(game_lines) == 70768

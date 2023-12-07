@@ -62,16 +62,21 @@ def real_calibration_value(line: str) -> int:
     return int(f"{DIGIT_MAP[first[0]]}{DIGIT_MAP[reverse_string(last[0])]}")
 
 
-def calibration_sum(calibration_function: Callable[[str], int]) -> int:
+def calibration_sum(
+    calibration_function: Callable[[str], int], path: str
+) -> int:
     answer = 0
-    for line in pathlib.Path("input.txt").read_text().splitlines():
+    for line in pathlib.Path(path).read_text().splitlines():
         answer += calibration_function(line)
     return answer
 
 
 def main() -> None:
-    assert calibration_sum(calibration_value) == 54331
-    assert calibration_sum(real_calibration_value) == 54518
+    assert calibration_sum(calibration_value, "example1.txt") == 142
+    assert calibration_sum(real_calibration_value, "example2.txt") == 281
+
+    assert calibration_sum(calibration_value, "input.txt") == 54331
+    assert calibration_sum(real_calibration_value, "input.txt") == 54518
     print("All tests passed.")
 
 
