@@ -1,5 +1,9 @@
+#!/usr/bin/env python
+
 import math
 import pathlib
+
+from rich import print
 
 
 def read_races(path):

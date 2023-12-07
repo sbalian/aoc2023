@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+
 import collections
 import pathlib
 import re
 from typing import NamedTuple
+
+from rich import print
 
 
 class Number(NamedTuple):

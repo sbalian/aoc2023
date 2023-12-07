@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+
 import dataclasses
 import pathlib
 import re
+
+from rich import print
 
 
 @dataclasses.dataclass

@@ -1,7 +1,11 @@
+#!/usr/bin/env python
+
 import math
 import pathlib
 import re
 from typing import Generator
+
+from rich import print
 
 LIMITS = {"red": 12, "green": 13, "blue": 14}
 

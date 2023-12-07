@@ -1,9 +1,13 @@
+#!/usr/bin/env python
+
 import collections
 import concurrent.futures
 import dataclasses
 import functools
 import math
 import pathlib
+
+from rich import print
 
 
 @dataclasses.dataclass

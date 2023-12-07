@@ -1,6 +1,10 @@
+#!/usr/bin/env python
+
 import pathlib
 import re
 from typing import Callable
+
+from rich import print
 
 SPELLED_OUT_DIGITS = [
     "one",
