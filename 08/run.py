@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import math
 import pathlib
 import re
 
@@ -11,33 +12,50 @@ def read_docs(path):
     instructions = list(lines[0])
     map = {}
     for line in lines[2:]:
-        k, v1, v2 = re.findall(r"[A-Z]{3}", line)
-        map[k] = (v1, v2)
+        start, left, right = re.findall(r"[A-Z\d]{3}", line)
+        map[start] = (left, right)
     return instructions, map
 
 
-def part1(instructions, map):
-    i = 0
-    n = len(instructions)
-    position = "AAA"
+def steps_to_first_end(instructions, map, start="AAA", part=1):
+    i, n, position = 0, len(instructions), start
     while True:
-        instruction = instructions[i % n]
-        if instruction == "R":
-            position = map[position][1]
-        else:
-            position = map[position][0]
+        match instructions[i % n]:
+            case "R":
+                position = map[position][1]
+            case "L":
+                position = map[position][0]
         i += 1
-        if position == "ZZZ":
-            return i
+        match part:
+            case 1:
+                if position == "ZZZ":
+                    return i
+            case 2:
+                if position.endswith("Z"):
+                    return i
+
+
+def part2(instructions, map):
+    return math.lcm(
+        *[
+            steps_to_first_end(instructions, map, start=start, part=2)
+            for start in [node for node in map.keys() if node.endswith("A")]
+        ]
+    )
 
 
 def main():
     instructions, map = read_docs("example1.txt")
-    assert part1(instructions, map) == 2
+    assert steps_to_first_end(instructions, map) == 2
     instructions, map = read_docs("example2.txt")
-    assert part1(instructions, map) == 6
+    assert steps_to_first_end(instructions, map) == 6
     instructions, map = read_docs("input.txt")
-    assert part1(instructions, map) == 11309
+    assert steps_to_first_end(instructions, map) == 11309
+
+    instructions, map = read_docs("example3.txt")
+    assert part2(instructions, map) == 6
+    instructions, map = read_docs("input.txt")
+    assert part2(instructions, map) == 13740108158591
 
     print("All tests passed.")
 
