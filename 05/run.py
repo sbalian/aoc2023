@@ -10,29 +10,33 @@ import pathlib
 from rich import print
 
 
+@dataclasses.dataclass(frozen=True)
+class Range:
+    start: int
+    end: int
+
+    def __lt__(self, other):
+        return self.start < other.start
+
+    def __contains__(self, number):
+        return self.start <= number <= self.end
+
+
 @dataclasses.dataclass
 class Map:
-    source_starts: list[int] = dataclasses.field(
-        init=False, default_factory=list
-    )
-    source_ends: list[int] = dataclasses.field(
-        init=False, default_factory=list
-    )
-    dest_starts: list[int] = dataclasses.field(
-        init=False, default_factory=list
-    )
-    num_sections: int = dataclasses.field(init=False, default=0)
+    ranges: list[Range] = dataclasses.field(init=False, default_factory=list)
+    deltas: list[int] = dataclasses.field(init=False, default_factory=list)
 
-    def add(self, source_start, dest_start, range_):
-        self.source_starts.append(source_start)
-        self.source_ends.append(source_start + range_ - 1)
-        self.dest_starts.append(dest_start)
-        self.num_sections += 1
+    def add(self, source_start, dest_start, range_length):
+        self.ranges.append(
+            Range(source_start, source_start + range_length - 1)
+        )
+        self.deltas.append(dest_start - source_start)
 
-    def get(self, source):
-        for i in range(self.num_sections):
-            if self.source_starts[i] <= source <= self.source_ends[i]:
-                return self.dest_starts[i] + (source - self.source_starts[i])
+    def get_single(self, source):
+        for range_, delta in zip(self.ranges, self.deltas):
+            if source in range_:
+                return source + delta
         return source
 
 
@@ -57,13 +61,13 @@ def parse_almanac(path):
 def min_location(seeds, maps):
     min_ = math.inf
     for seed in seeds:
-        soil = maps["seed-to-soil"].get(seed)
-        fertilizer = maps["soil-to-fertilizer"].get(soil)
-        water = maps["fertilizer-to-water"].get(fertilizer)
-        light = maps["water-to-light"].get(water)
-        temperature = maps["light-to-temperature"].get(light)
-        humidity = maps["temperature-to-humidity"].get(temperature)
-        location = maps["humidity-to-location"].get(humidity)
+        soil = maps["seed-to-soil"].get_single(seed)
+        fertilizer = maps["soil-to-fertilizer"].get_single(soil)
+        water = maps["fertilizer-to-water"].get_single(fertilizer)
+        light = maps["water-to-light"].get_single(water)
+        temperature = maps["light-to-temperature"].get_single(light)
+        humidity = maps["temperature-to-humidity"].get_single(temperature)
+        location = maps["humidity-to-location"].get_single(humidity)
         if location < min_:
             min_ = location
     return min_
