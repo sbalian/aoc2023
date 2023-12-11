@@ -34,6 +34,8 @@ def get_galaxies(space):
 
 
 def expansion_correction(start, end, indices, multiplier=2):
+    if start > end:
+        start, end = end, start
     c = 0
     for i in range(start, end):
         if i in indices:
@@ -42,52 +44,12 @@ def expansion_correction(start, end, indices, multiplier=2):
 
 
 def shortest_path(galaxy1, galaxy2, empty_rows, empty_cols, multiplier=2):
-    if galaxy1[0] > galaxy2[0]:
-        if galaxy1[1] < galaxy2[1]:
-            return (
-                (galaxy2[1] - galaxy1[1])
-                + (galaxy1[0] - galaxy2[0])
-                + expansion_correction(
-                    galaxy1[1], galaxy2[1], empty_cols, multiplier
-                )
-                + expansion_correction(
-                    galaxy2[0], galaxy1[0], empty_rows, multiplier
-                )
-            )
-        else:
-            return (
-                (galaxy1[1] - galaxy2[1])
-                + (galaxy1[0] - galaxy2[0])
-                + expansion_correction(
-                    galaxy2[1], galaxy1[1], empty_cols, multiplier
-                )
-                + expansion_correction(
-                    galaxy2[0], galaxy1[0], empty_rows, multiplier
-                )
-            )
-    else:
-        if galaxy1[1] < galaxy2[1]:
-            return (
-                (galaxy2[1] - galaxy1[1])
-                + (galaxy2[0] - galaxy1[0])
-                + expansion_correction(
-                    galaxy1[1], galaxy2[1], empty_cols, multiplier
-                )
-                + expansion_correction(
-                    galaxy1[0], galaxy2[0], empty_rows, multiplier
-                )
-            )
-        else:
-            return (
-                (galaxy1[1] - galaxy2[1])
-                + (galaxy2[0] - galaxy1[0])
-                + expansion_correction(
-                    galaxy2[1], galaxy1[1], empty_cols, multiplier
-                )
-                + expansion_correction(
-                    galaxy1[0], galaxy2[0], empty_rows, multiplier
-                )
-            )
+    return (
+        abs(galaxy1[0] - galaxy2[0])
+        + abs(galaxy1[1] - galaxy2[1])
+        + expansion_correction(galaxy1[1], galaxy2[1], empty_cols, multiplier)
+        + expansion_correction(galaxy1[0], galaxy2[0], empty_rows, multiplier)
+    )
 
 
 def shortest_path_sum(galaxies, empty_rows, empty_cols, multiplier=2):
