@@ -5,10 +5,7 @@ import os
 TEMPLATE = """\
 #!/usr/bin/env python
 
-from rich import print as rich_print
-
-std_print = print
-print = rich_print
+from rich import print as rprint
 
 
 def main():
