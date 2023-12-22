@@ -164,6 +164,7 @@ def main():
     initial_velocity = (0, 1)
     assert num_energized(grid, initial_position, initial_velocity) == 7034
     assert max_num_energized(grid) == 7759
+    print("All tests passed.")
 
 
 if __name__ == "__main__":
