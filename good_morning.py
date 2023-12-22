@@ -9,7 +9,7 @@ from rich import print as rprint
 
 
 def main():
-    print("All tests passed.")
+    rprint("All tests passed.")
 
 
 if __name__ == "__main__":
