@@ -132,7 +132,6 @@ def part1(modules: dict[str, Module]) -> int:
     highs = 0
     lows = 0
     for _ in range(1000):
-        modules["button"].process()
         queue: Deque[Message] = collections.deque(modules["button"].process())
         while queue:
             message = queue.popleft()
